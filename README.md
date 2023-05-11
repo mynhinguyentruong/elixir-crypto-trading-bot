@@ -4,15 +4,18 @@
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `delete` to your list of dependencies in `mix.exs`:
+Run `iex -S mix` to compile and start `iex`:
 
+Example:
 ```elixir
-def deps do
-  [
-    {:delete, "~> 0.1.0"}
-  ]
-end
+iex(1)> Crypto.start_link("ethereum")
+iex(1)> Crypto.start_link("solana")
+iex(1)> Crypto.start_link("bitcoin")
+
+
+iex(1)> Crypto.get_price("ethereum")
+iex(2)> Crypto.get_price("solana")
+iex(3)> Crypto.get_price("bitcoin")
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
