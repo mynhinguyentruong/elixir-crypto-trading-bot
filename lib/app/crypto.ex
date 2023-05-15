@@ -4,9 +4,18 @@ defmodule Crypto do
   defstruct [:symbol, :price]
   # %Crypto{symbol: value, price: value}
 
+  def child_spec(arg) do
+    %{
+      id: arg,
+      start: {Crypto, :start_link, [arg]}
+    }
+  end
+
   def start_link(symbol) do # SOL
     name = via_tuple(symbol)
     GenServer.start_link(__MODULE__, %Crypto{symbol: symbol}, name: name) # default price 0
+
+    loop_get_price(symbol)
   end
 
   def via_tuple(symbol) do
@@ -17,6 +26,13 @@ defmodule Crypto do
     GenServer.call(via_tuple(symbol), {:get_price, symbol})
   end
 
+  def loop_get_price(symbol) do
+    get_price(symbol)
+
+    Process.sleep(30000) # every 30 sec because rate limit 10-30 calls/min
+
+    loop_get_price(symbol)
+  end
 
 
   @impl true

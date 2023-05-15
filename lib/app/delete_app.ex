@@ -7,8 +7,11 @@ defmodule Delete.Application do
     children = [
 
       {Registry, keys: :unique, name: Crypto.Registry},
-      {Crypto, ["SOL"]},
-      {Registry, keys: :duplicate, name: PubSub.Registry}
+      {Crypto, "ethereum"},
+      {Crypto, "solana"},
+      {Crypto, "bitcoin"},
+      {Registry, keys: :duplicate, name: PubSub.Registry},
+      {Task, fn -> Server.listen(3030) end}
     ]
 
     opts = [strategy: :one_for_one, name: Delete.Application.Supervisor]
